@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: during-api
+  namespace: flask-apps
+spec:
+  replicas: 2  # Run 2 copies for reliability
+  selector:
+    matchLabels:
+      app: during-api
+  template:
+    metadata:
+      labels:
+        app: during-api
+    spec:
+      containers:
+      - name: during-api
+        # This is where your Docker image lives
+        image: swr.cn-north-4.myhuaweicloud.com/your-namespace/during-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000  # Flask's default port
+        # Mount the config file
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/.env
+          subPath: .env
+        # Resource limits - like giving your app a budget
+        resources:
+          requests:  # Minimum guaranteed
+            memory: "256Mi"  # 256 MB
+            cpu: "250m"      # 1/4 of a CPU
+          limits:     # Maximum allowed
+            memory: "512Mi"   # 512 MB
+            cpu: "500m"       # 1/2 of a CPU
+        # Health checks
+        livenessProbe:  # Is the app alive?
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:  # Is the app ready for traffic?
+          httpGet:
+            path: /ready
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: config-volume
+        configMap:
+          name: during-api-config
+---
+# Service - this gives your app an address
+apiVersion: v1
+kind: Service
+metadata:
+  name: during-api-service
+  namespace: flask-apps
+spec:
+  selector:
+    app: during-api
+  ports:
+  - port: 80        # External port
+    targetPort: 5000 # Internal port (your Flask app)
+  type: ClusterIP

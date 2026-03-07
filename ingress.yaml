@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flask-apps-ingress
+  namespace: flask-apps
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: your-app-domain.com  # You can use your ECS IP here temporarily
+    http:
+      paths:
+      - path: /before(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: before-api-service
+            port:
+              number: 80
+      - path: /during(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: during-api-service
+            port:
+              number: 80
+      - path: /after(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: after-api-service
+            port:
+              number: 80
