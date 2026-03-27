@@ -1042,20 +1042,3 @@ docker-compose up --build
 
 ---
 
-## 🗺️ Future Roadmap
-
-- [ ] **5G Integration** — Ultra-low-latency MQTT over 5G for remote nodes
-- [ ] **Drone Swarm Dispatch** — Auto-scramble drones on FIRE_CRITICAL alert
-- [ ] **FWI Trend Forecasting** — 7-day fire risk prediction from historical sensor data
-- [ ] **SMS / Push Alerts** — Real-time notifications to local fire brigades via Huawei MSGSMS
-- [ ] **Mobile Dashboard** — Field responder app with live fire map
-- [ ] **Smoke Segmentation** — Upgrade drone vision to per-pixel segmentation
-- [ ] **Multi-language Reports** — Arabic version of the Gemini AI reports
-- [ ] **Huawei ModelArts** — Migrate ensemble model training to Huawei ModelArts for GPU acceleration
-- [ ] **Huawei IoTDA** — Replace raw MQTT broker with Huawei IoT Device Access for managed device registry
-
----
-
-*Built for the **AgriTech & Environmental Protection — AI, 5G & Digital Power** challenge.*  
-*Focused on forest fire prevention and climate resilience in rural Algeria. 🇩🇿*  
-*Powered by: Google Gemini · NASA FIRMS · YOLOv5 · IoT Sensor Network · Huawei Cloud (CCE · SWR · OBS · DMS · ELB · AOM · DEW)*
